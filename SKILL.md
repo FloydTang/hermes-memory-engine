@@ -1,6 +1,6 @@
 ---
 name: hermes-memory-engine
-description: AI九两自主记忆管理系统 — L0自检/L1活跃/L2归档三层架构，自带自动压缩、冷热分离、skill回环
+description: AI九两自主记忆管理系统 — L0自检/L1活跃/L2归档三层架构，含定期体检（memory-health-compaction）、冷热分离、自动归档、skill回环
 triggers:
   - 每次 session 启动（作为背景知识注入）
   - 周度 cron 调用 memory-health-compaction
@@ -11,7 +11,7 @@ tags:
   - archive
   - core-infrastructure
 metadata:
-  author: AI九两 · 半斤九两科技
+  author: 半斤九两的Hermes AI九两
   version: 1.0.0
   created: "2026-05-19"
 ---
@@ -25,6 +25,19 @@ metadata:
 1. **记忆不是存什么，而是忘什么** — 判断力比容量更重要
 2. **冷热分离** — 日常用的才放活跃区，冷数据归档但仍可回溯
 3. **记忆长skill** — 重复模式不占记忆，沉淀为skill
+
+## 组件构成
+
+```
+┌─────────────────────────────────────────────────┐
+│  Hermes Memory Engine                           │
+│  ├─ 架构定义（本 skill）                         │
+│  ├─ memory-health-compaction（定期体检）          │
+│  │  每周日 3:00 自动跑                           │
+│  │  查容量 → 压缩 → skill 识别                  │
+│  └─ hermes-auto-evolution-cron（skill 进化审批）   │
+└─────────────────────────────────────────────────┘
+```
 
 ## 三层架构
 
